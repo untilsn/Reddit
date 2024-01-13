@@ -5,7 +5,7 @@ const UserModalFill = ({ children, onClick = () => {}, ...props }) => {
     <Fragment>
       <h1
         onClick={onClick}
-        className="flex items-center gap-2 px-10 py-4 text-sm font-medium hover:bg-main-dark-lite text-text-color"
+        className="flex text-[15px] items-center gap-4 px-5 py-4 text-base font-medium hover:bg-main-dark-lite text-text-color"
       >
         {children}
       </h1>

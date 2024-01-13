@@ -1,17 +1,56 @@
-import { Route, Router, Routes } from "react-router-dom";
-import Login from "./components/authentic/Login";
-import HomePage from "./pages/HomePage";
-import AuthenticModal from "./components/authentic/AuthenticModal";
-import SignUp from "./components/authentic/SignUp";
+import { Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./context/auth-context";
+import Header from "./components/layout/Header";
+import FrontPage from "./pages/FrontPage";
+
+import PostDetailPage from "./pages/PostDetailPage";
+import ProfilePage from "./pages/ProfilePage";
+import PostAddNewPage from "./pages/PostAddnewPage";
 
 function App() {
   return (
-    <>
+    <div>
       <AuthProvider>
-        <HomePage></HomePage>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <Header></Header>
+                <FrontPage></FrontPage>
+              </>
+            }
+          ></Route>
+          <Route
+            path="/post-addnew"
+            element={
+              <>
+                <Header></Header>
+                <PostAddNewPage></PostAddNewPage>
+              </>
+            }
+          ></Route>
+          <Route
+            path="/post"
+            element={
+              <>
+                <Header></Header>
+                <PostDetailPage></PostDetailPage>
+              </>
+            }
+          ></Route>
+          <Route
+            path="/user/:slug"
+            element={
+              <>
+                <Header></Header>
+                <ProfilePage></ProfilePage>
+              </>
+            }
+          ></Route>
+        </Routes>
       </AuthProvider>
-    </>
+    </div>
   );
 }
 

@@ -6,6 +6,10 @@ const InputForm = ({
   type = "text",
   children,
   control,
+  className,
+  value,
+  onChange,
+  kind,
   ...props
 }) => {
   const { field } = useController({
@@ -16,11 +20,17 @@ const InputForm = ({
   return (
     <div className="relative">
       <input
-        className={`${
-          children ? "pr-[50px]" : "pr-[30px]"
-        } w-full p-4 mt-2 normal-case text-sm text-current transition-all border border-transparent rounded-3xl focus:text-white focus:border-blue-500 focus:bg-transparent bg-clr-card-bg`}
+        maxLength={300}
+        className={`${children ? "pr-[50px]" : "pr-[30px]"} ${
+          kind === "secondary"
+            ? "w-full focus:border-text-color border border-border-color rounded min-h-[50px]  px-5"
+            : "w-full p-4 mt-2 normal-case  text-current transition-all border border-transparent rounded-3xl focus:text-white focus:border-blue-500 focus:bg-transparent bg-clr-card-bg"
+        }
+        
+        
+       `}
         type={type}
-        id={name}
+        name={name}
         {...field}
         {...props}
       />

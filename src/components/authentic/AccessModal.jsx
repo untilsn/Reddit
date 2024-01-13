@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Login from "./Login";
 import SignUp from "./SignUp";
 
-const AuthenticModal = ({ onClose }) => {
+const AccessModal = ({ onClose }) => {
   const [currentComponent, setCurrentComponent] = useState("signin");
 
   const switchToSignUp = () => {
@@ -23,7 +23,7 @@ const AuthenticModal = ({ onClose }) => {
         <div
           className={`${
             currentComponent === "signup" ? "h-[700px]" : "h-[600px]"
-          } modal p-10  w-[500px]  rounded-2xl bg-clr-page-bg z-20 absolute top-[50%] -translate-y-[50%] left-[50%] -translate-x-[50%]`}
+          } modal p-10  w-[500px]  rounded-2xl bg-clr-page-bg z-20 absolute top-[50%]  left-[50%] -translate-x-[50%]`}
         >
           {/* button */}
           <div
@@ -57,4 +57,4 @@ const AuthenticModal = ({ onClose }) => {
   );
 };
 
-export default AuthenticModal;
+export default AccessModal;

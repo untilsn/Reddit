@@ -3,8 +3,13 @@ import React from "react";
 const Button = ({
   children,
   isValid,
+  kind,
+  content,
   type = "button",
+  activeButton,
   onClick = () => {},
+  className,
+  image,
   ...props
 }) => {
   return (
@@ -13,10 +18,12 @@ const Button = ({
         onClick={onClick}
         type={type}
         className={`${
-          isValid
-            ? "text-white bg-reddit-color"
-            : "text-clr-gb-4 bg-clr-card-bg  "
-        } w-full p-4 mt-10  rounded-3xl  font-medium`}
+          kind === "secondary"
+            ? "bg-gray-300 border text-black  border-black shadow-lg py-[6px] px-4 rounded-3xl "
+            : isValid
+            ? "bg-reddit-color "
+            : "  bg-clr-card-bg hover:bg-clr-gb-6  "
+        } w-full py-4 px-6 rounded-3xl font-semibold `}
       >
         {children}
       </button>

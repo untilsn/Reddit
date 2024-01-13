@@ -46,10 +46,13 @@ const SignUp = ({ switchToSignIn, onClose }) => {
       email: values.email,
       password: values.password,
       username: slugify(values.fullname, { lower: true }),
+      followers: "",
+      followings: "",
       avatar:
         "https://play-lh.googleusercontent.com/kUOsgwyf8qbM0I7zKpnPr8b44WD0SzALloHWH7ROq3kUk2GM9ssj9a7fR-zulmG-sjU=w240-h480-rw",
       status: userStatus.ONLINE,
       createAt: serverTimestamp(),
+      karma: 0,
     });
     toast.success("create user success");
   };
@@ -137,7 +140,7 @@ const SignUp = ({ switchToSignIn, onClose }) => {
         </a>
         ?
       </div>
-      <div className="mt-5 text-[13px]">
+      <div className="mt-5 text-[13px] mb-10">
         Already a redditor?
         <span onClick={switchToSignIn} className="cursor-pointer text-clr-blue">
           Log In

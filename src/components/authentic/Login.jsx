@@ -98,7 +98,7 @@ const Login = ({ switchToSignUp, onClose }) => {
         </a>
         ?
       </div>
-      <div className="mt-5 text-[13px]">
+      <div className="mt-5 text-[13px] mb-10">
         New to Reddit{" "}
         <span onClick={switchToSignUp} className="cursor-pointer text-clr-blue">
           Signup

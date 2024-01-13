@@ -1,12 +1,14 @@
-import React from "react";
+import React, { Fragment } from "react";
 import Header from "../components/layout/Header";
-import { useAuth } from "../context/auth-context";
+import FrontPage from "./FrontPage";
 
 const HomePage = () => {
   return (
-    <div>
-      <Header></Header>
-    </div>
+    <Fragment>
+      <Header>
+        <FrontPage></FrontPage>
+      </Header>
+    </Fragment>
   );
 };
 

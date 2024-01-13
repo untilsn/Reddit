@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import "content";
 
 *,
 *:before,
@@ -12,7 +13,7 @@
   padding: 0;
   font: inherit;
   color: #d7dadc;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-family: "IBM Plex Sans", sans-serif;
   text-transform: capitalize;
 }
 img,
@@ -31,6 +32,15 @@ textarea {
   background-color: transparent;
   outline: none;
 }
+ul,
+li {
+  list-style-type: none; // Change 'style' to 'none'
+}
+
+li::marker {
+  list-style-position: outside; // Add this line
+}
+
 button {
   cursor: pointer;
   background-color: transparent;
@@ -48,4 +58,7 @@ body {
   max-width: 1260px;
   margin: 0 auto;
   padding: 0 20px;
+}
+input {
+  text-transform: none;
 }

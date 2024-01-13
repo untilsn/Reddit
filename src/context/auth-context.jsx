@@ -8,7 +8,7 @@ const AuthContext = createContext();
 
 function AuthProvider(props) {
   const [userInfo, setUserInfo] = useState({});
-  const values = { userInfo, setUserInfo };
+  const value = { userInfo, setUserInfo };
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -29,9 +29,7 @@ function AuthProvider(props) {
       }
     });
   }, []);
-  return (
-    <AuthContext.Provider {...props} value={values}></AuthContext.Provider>
-  );
+  return <AuthContext.Provider {...props} value={value}></AuthContext.Provider>;
 }
 
 function useAuth() {
