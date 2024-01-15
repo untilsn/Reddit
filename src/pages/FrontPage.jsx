@@ -6,23 +6,26 @@ import BoxCreatePost from "../components/layout/BoxCreatePost";
 import PostItemUser from "../components/post/PostItemUser";
 import {
   collection,
-  doc,
-  getDoc,
-  getDocs,
+  limit,
   onSnapshot,
+  orderBy,
+  query,
 } from "firebase/firestore";
 import { db } from "../firebase/firebaseConfigure";
-import { useAuth } from "../context/auth-context";
 
 const FrontPage = () => {
-  const { userInfo } = useAuth();
   const [post, setPost] = useState([]);
+  console.log(post);
   useEffect(() => {
     try {
       async function fecthPost() {
-        const colRef = collection(db, "posts");
+        const q = query(
+          collection(db, "posts"),
+          orderBy("createAt", "desc"),
+          limit(10)
+        );
 
-        onSnapshot(colRef, (snapshot) => {
+        onSnapshot(q, (snapshot) => {
           let result = [];
           snapshot.forEach((doc) => {
             result.push({
@@ -37,7 +40,7 @@ const FrontPage = () => {
     } catch (error) {
       console.log(error);
     }
-  }, [userInfo]);
+  }, []);
 
   return (
     <div className="container flex justify-center gap-5">

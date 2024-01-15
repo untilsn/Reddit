@@ -6,6 +6,8 @@ import FrontPage from "./pages/FrontPage";
 import PostDetailPage from "./pages/PostDetailPage";
 import ProfilePage from "./pages/ProfilePage";
 import PostAddNewPage from "./pages/PostAddnewPage";
+import ProfileUser from "./components/profile/ProfileUser";
+import SavingPostPage from "./pages/SavingPostPage";
 
 function App() {
   return (
@@ -45,6 +47,24 @@ function App() {
               <>
                 <Header></Header>
                 <ProfilePage></ProfilePage>
+              </>
+            }
+          ></Route>
+          <Route
+            path="/profile-user"
+            element={
+              <>
+                <Header></Header>
+                <ProfileUser></ProfileUser>
+              </>
+            }
+          ></Route>
+          <Route
+            path="/user/saved"
+            element={
+              <>
+                <Header></Header>
+                <SavingPostPage></SavingPostPage>
               </>
             }
           ></Route>

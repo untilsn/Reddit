@@ -21,7 +21,7 @@ import {
 import { db } from "../../firebase/firebaseConfigure";
 import { useAuth } from "../../context/auth-context";
 import { toast } from "react-toastify";
-import useHandleKarmaIncrement from "../hook/usehandleKarmaIncrement";
+import useHandleKarmaIncrement from "../../hook/usehandleKarmaIncrement";
 
 const AddPostContainer = ({ activeButton }) => {
   const { userInfo } = useAuth();

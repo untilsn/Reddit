@@ -1,7 +1,6 @@
 import React, { Fragment } from "react";
 
 const PostLink = ({ data }) => {
-  console.log(data.link);
   return (
     <Fragment>
       <a

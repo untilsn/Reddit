@@ -3,22 +3,23 @@ import React, { Fragment } from "react";
 import { db } from "../../firebase/firebaseConfigure";
 import { useAuth } from "../../context/auth-context";
 import AccessModal from "../authentic/AccessModal";
+import Login from "../authentic/Login";
+import { toast } from "react-toastify";
 
 const Like = ({ item }) => {
   const { userInfo } = useAuth();
-  if (!userInfo) return;
   const handleLike = async (item) => {
+    if (!userInfo) return toast.error("you must be login to like post");
     if (!item.id) {
       console.error("Invalid itemId");
       return;
     }
     const postRef = doc(db, "posts", item.id);
 
-    if (item.liked === true) {
+    if (item?.like && item?.like.includes(userInfo?.uid)) {
       // Thực hiện unlike
       await updateDoc(postRef, {
         like: arrayRemove(userInfo?.uid),
-        liked: false,
       });
       console.log("unLike successful");
     } else {
@@ -26,15 +27,14 @@ const Like = ({ item }) => {
       await updateDoc(postRef, {
         like: arrayUnion(userInfo?.uid),
         dislike: arrayRemove(userInfo?.uid),
-        liked: true,
-        disliked: false,
       });
       console.log("Like successful");
     }
   };
 
   const handleDislike = async (item) => {
-    console.log(item);
+    if (!userInfo) return toast.error("you must be login to dislike post");
+
     if (!item.id) {
       console.error("Invalid itemId");
       return;
@@ -42,11 +42,10 @@ const Like = ({ item }) => {
 
     const postRef = doc(db, "posts", item.id);
 
-    if (item.disliked === true) {
-      // Thực hiện undislike
+    if (item?.dislike && item?.dislike.includes(userInfo?.uid)) {
+      // Thực hiện undisdislike
       await updateDoc(postRef, {
         dislike: arrayRemove(userInfo?.uid),
-        disliked: false,
       });
       console.log("undislike successful");
     } else {
@@ -54,22 +53,21 @@ const Like = ({ item }) => {
       await updateDoc(postRef, {
         dislike: arrayUnion(userInfo?.uid),
         like: arrayRemove(userInfo?.uid),
-        liked: false,
-        disliked: true,
       });
       console.log("dislike successful");
     }
   };
+
   return (
     <Fragment>
-      <div className="h-full py-3 overflow-hidden  bg-clr-box- w-full max-w-[40px] flex flex-col items-center ">
+      <div className="h-full py-3 overflow-hidden  bg-clr-box- w-[40px] flex flex-col items-center ">
         {/* up */}
         <div
           className="p-1 rounded cursor-pointer hover:bg-main-dark-gray"
           onClick={() => handleLike(item)}
         >
-          {item?.liked === true ? (
-            <span className="">
+          {item?.like && item?.like.includes(userInfo?.uid) ? (
+            <span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -84,7 +82,7 @@ const Like = ({ item }) => {
                 />
               </svg>
             </span>
-          ) : item?.liked === false ? (
+          ) : (
             <span className=" group">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -102,8 +100,6 @@ const Like = ({ item }) => {
                 />
               </svg>
             </span>
-          ) : (
-            ""
           )}
         </div>
         {/* quantity */}
@@ -117,7 +113,7 @@ const Like = ({ item }) => {
           className="p-1 rounded cursor-pointer hover:bg-main-dark-gray"
           onClick={() => handleDislike(item)}
         >
-          {item?.disliked === true ? (
+          {item?.dislike && item?.dislike.includes(userInfo?.uid) ? (
             <span className="">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -133,7 +129,7 @@ const Like = ({ item }) => {
                 />
               </svg>
             </span>
-          ) : item?.disliked === false ? (
+          ) : (
             <span className="group">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -151,8 +147,6 @@ const Like = ({ item }) => {
                 />
               </svg>
             </span>
-          ) : (
-            ""
           )}
         </div>
       </div>

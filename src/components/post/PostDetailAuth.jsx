@@ -8,7 +8,7 @@ import { useAuth } from "../../context/auth-context";
 import { db } from "../../firebase/firebaseConfigure";
 import { doc, updateDoc } from "firebase/firestore";
 
-const PostDetailUser = ({ userData }) => {
+const PostDetailAuth = ({ userData }) => {
   const { avatarImage, handleSelecteAvatar } = useFirebaseAvatar();
   const [buttonSubmit, setButtonSubmit] = useState(false);
   console.log(avatarImage);
@@ -46,7 +46,7 @@ const PostDetailUser = ({ userData }) => {
             <div className="flex flex-col justify-center transition-all group">
               <div className="max-w-[120px] w-full mx-auto h-[120px]">
                 <img
-                  src={avatarImage || userData.avatar}
+                  src={avatarImage || userInfo.avatar}
                   alt=""
                   className="object-cover w-full h-full rounded-full"
                 />
@@ -161,4 +161,4 @@ const PostDetailUser = ({ userData }) => {
   );
 };
 
-export default PostDetailUser;
+export default PostDetailAuth;

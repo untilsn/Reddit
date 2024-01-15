@@ -16,7 +16,7 @@ import { db } from "../../firebase/firebaseConfigure";
 import ButtonLink from "../button/ButtonLink";
 import { useAuth } from "../../context/auth-context";
 import { toast } from "react-toastify";
-import useHandleKarmaIncrement from "../hook/usehandleKarmaIncrement";
+import useHandleKarmaIncrement from "../../hook/usehandleKarmaIncrement";
 
 const AddPostLink = ({ activeButton }) => {
   const { userInfo } = useAuth();

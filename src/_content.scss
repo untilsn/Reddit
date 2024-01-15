@@ -57,8 +57,8 @@
     margin-bottom: auto;
 
     img {
-      width: 100%;
-      height: 100%;
+      width: 80%;
+      height: 80%;
       object-fit: cover;
       margin-top: 5px;
     }
@@ -117,4 +117,102 @@
   padding: 10px;
   background-color: rgba(180, 180, 180, 0.858);
   color: #232324;
+}
+
+.Toastify__toast--error {
+  border: 1px solid #eb5757;
+  border-radius: 50px !important;
+  background: #fae1e2 !important;
+}
+.Toastify__toast--error::after {
+  width: 100%;
+  max-width: 60px;
+  height: 60px;
+  content: url("./error.png"); // Your svg Path
+  position: absolute;
+  color: #333333;
+  font-size: 15px;
+  font-weight: 700;
+  left: 265px;
+  padding-top: 14px !important;
+}
+.Toastify__toast--error::before {
+  width: 100%;
+  max-width: 60px;
+  height: 60px;
+  position: relative;
+  z-index: 100000;
+  left: 12px;
+  top: 6px;
+}
+.Toastify__toast--success {
+  border: 1px solid #3a9ea5 !important;
+  border-radius: 50px !important;
+  background: #f0f9fa !important;
+}
+.Toastify__toast--success::before {
+  width: 100%;
+  max-width: 1px;
+  height: 1px;
+  content: url("./verify.png"); // Your svg Path
+  position: relative;
+  z-index: 100000;
+  left: 12px;
+  top: 6px;
+}
+.Toastify__toast--success::after {
+  width: 100%;
+  max-width: 1px;
+  line-height: 1.6;
+  height: 60px;
+  position: absolute;
+  color: black;
+  font-size: 15px;
+  font-weight: 700;
+  left: 20px;
+  padding-top: 14px !important;
+}
+.Toastify__toast--warning {
+  border: 1px solid #e78326 !important;
+  border-radius: 50px !important;
+  background: #fadfc5 !important;
+}
+.Toastify__toast--warning::before {
+  width: 100%;
+  max-width: 1%;
+  height: 50px;
+  content: url("./warning.png"); // Your svg Path
+  position: relative;
+  z-index: 100000;
+  left: 12px;
+  top: 6px;
+}
+.Toastify__toast--warning::after {
+  width: 100%;
+  max-width: 60px;
+  height: 60px;
+  position: absolute;
+  color: #e78326;
+  font-size: 15px;
+  font-weight: 700;
+  left: 265px;
+  padding-top: 14px !important;
+}
+.Toastify__toast-body {
+  color: #444c63;
+  font-size: 16px;
+  line-height: 10px;
+  padding: 0px;
+  padding-top: 25px;
+  width: 100%;
+  font-weight: 400;
+  margin-left: 10px !important;
+  div {
+    color: black;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+}
+.Toastify__toast > button > svg {
+  display: none;
 }

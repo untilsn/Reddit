@@ -16,7 +16,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../../firebase/firebaseConfigure";
 import { toast } from "react-toastify";
-import useHandleKarmaIncrement from "../hook/usehandleKarmaIncrement";
+import useHandleKarmaIncrement from "../../hook/usehandleKarmaIncrement";
 
 const AddPostImage = ({ activeButton }) => {
   const { userInfo } = useAuth();

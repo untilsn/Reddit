@@ -1,7 +1,8 @@
-import { useEffect } from "react";
-import { useAuth } from "../../context/auth-context";
+import React from "react";
+
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { db } from "../../firebase/firebaseConfigure";
+import { db } from "../firebase/firebaseConfigure";
+import { useAuth } from "../context/auth-context";
 
 const useHandleKarmaIncrement = () => {
   const { userInfo } = useAuth();
