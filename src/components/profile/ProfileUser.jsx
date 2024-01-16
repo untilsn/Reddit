@@ -18,29 +18,27 @@ const ProfileUser = () => {
   const [post, setPost] = useState([]);
   const userId = param.get("id");
 
-  console.log(userId);
-
   useEffect(() => {
-    const fetchPost = async () => {
-      const docRef = query(
-        collection(db, "posts"),
-        orderBy("createAt", "desc"),
-        where("user.id", "==", userId)
-      );
+    if (!userId) return;
+    console.log(userId);
+    const docRef = query(
+      collection(db, "posts"),
+      orderBy("createAt", "desc"),
+      where("user.id", "==", userId)
+    );
+    onSnapshot(docRef, (snapshot) => {
       let result = [];
-      onSnapshot(docRef, (snapshot) =>
-        snapshot.forEach((doc) => {
-          result.push({
-            id: doc.id,
-            ...doc.data(),
-          });
-          setPost(result);
-        })
-      );
-    };
-    fetchPost();
-  }, []);
+      snapshot.forEach((doc) => {
+        result.push({
+          id: doc.id,
+          ...doc.data(),
+        });
+      });
+      setPost(result);
+    });
+  }, [userId]);
 
+  console.log(post);
   return (
     <Fragment>
       <div className="container">

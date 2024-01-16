@@ -9,6 +9,7 @@ import { db } from "../../firebase/firebaseConfigure";
 import {
   collection,
   doc,
+  getDocs,
   onSnapshot,
   query,
   updateDoc,
@@ -16,7 +17,6 @@ import {
 } from "firebase/firestore";
 
 const PostDetailUser = ({ userId }) => {
-  console.log(userId);
   if (!userId) return;
   const { avatarImage, handleSelecteAvatar } = useFirebaseAvatar();
   const [buttonSubmit, setButtonSubmit] = useState(false);
@@ -36,8 +36,6 @@ const PostDetailUser = ({ userId }) => {
       });
     });
   }, []);
-
-  console.log(userId);
 
   const handleUpdateAvatar = async () => {
     if (!userInfo || !avatarImage) return;

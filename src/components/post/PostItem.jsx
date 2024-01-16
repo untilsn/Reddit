@@ -96,19 +96,25 @@ const PostItem = ({ postData }) => {
             {/* post item */}
             <div className="flex flex-col w-full h-full max-w-[658px] px-3 pt-3  bg-main-dark-gray">
               {/* info */}
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <div className="h-5 max-w-5 rounded-s-none ">
+              <div className="flex items-center h-[30px] justify-between">
+                <div className="flex items-center h-auto gap-2">
+                  <div className=" h-[25px] w-[25px] rounded-s-none">
                     <img
-                      className="object-cover w-full h-full rounded-full"
+                      className="object-cover w-full h-full border rounded-full border-text-primary"
                       srcSet={item?.user?.avatar}
                       alt=""
                     />
-                    <div></div>
                   </div>
                   <NavLink to={`/profile-user?id=${item?.user?.id}`}>
-                    <span className="flex items-center gap-2 text-xs font-semibold normal-case ">
-                      <span className="mt-[1px] transition-all font-semibold normal-case border-b border-main-dark-gray hover:border-b hover:border-text-primary">
+                    <span className="flex items-center gap-3 max-w-[500px] w-full text-xs font-semibold normal-case ">
+                      <span
+                        style={{
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                        }}
+                        className="mt-[1px] transition-all w-full max-w-[300px]  font-semibold normal-case border-b border-main-dark-gray hover:border-b hover:border-text-primary"
+                      >
                         r/{item?.user?.fullname}
                       </span>
                       .<span className="text-text-primary">{formatDate}</span>

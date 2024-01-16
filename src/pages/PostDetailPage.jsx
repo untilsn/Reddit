@@ -50,8 +50,8 @@ const PostDetailPage = () => {
                 {/* post item */}
                 <div className="w-full max-w-[828px] p-3 bg-main-dark-gray">
                   {/* info */}
-                  <div className="flex items-center gap-2 px-3">
-                    <div className="h-5 max-w-5">
+                  <div className="flex items-center h-auto gap-2 px-3">
+                    <div className="w-full h-[25px] max-w-[25px]">
                       <img
                         className="object-cover w-full h-full rounded-full"
                         srcSet={postData?.user?.avatar}
