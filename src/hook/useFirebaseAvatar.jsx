@@ -35,7 +35,6 @@ export function useFirebaseAvatar() {
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          console.log("File available at", downloadURL);
           setAvatarImage(downloadURL);
         });
       }

@@ -1,11 +1,10 @@
 import React, { Fragment, useEffect, useState } from "react";
-import PostDetailUser from "../post/PostDetailUser";
 import PostItem from "../post/PostItem";
 import {
   collection,
   doc,
-  getDocs,
   onSnapshot,
+  orderBy,
   query,
   where,
 } from "firebase/firestore";
@@ -21,26 +20,24 @@ const ProfileAuth = () => {
 
   useEffect(() => {
     if (!userInfo.uid) return;
-    async function fetchDoc() {
-      const colRef = collection(db, "posts");
-      const q = query(colRef, where("user.id", "==", userInfo.uid));
-      try {
-        onSnapshot(q, (snapshot) => {
-          const results = [];
-          snapshot.forEach((doc) => {
-            results.push({
-              id: doc.id,
-              ...doc.data(),
-            });
+    const q = query(
+      collection(db, "posts"),
+      where("user.id", "==", userInfo.uid)
+    );
+    try {
+      onSnapshot(q, (snapshot) => {
+        const results = [];
+        snapshot.forEach((doc) => {
+          results.push({
+            id: doc.id,
+            ...doc.data(),
           });
-          setPost(results);
         });
-      } catch (error) {
-        console.log(error);
-      }
+        setPost(results);
+      });
+    } catch (error) {
+      console.log(error);
     }
-
-    fetchDoc();
   }, [userInfo.uid]);
 
   return (

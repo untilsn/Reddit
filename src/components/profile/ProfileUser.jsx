@@ -3,6 +3,7 @@ import {
   doc,
   getDoc,
   onSnapshot,
+  orderBy,
   query,
   where,
 } from "firebase/firestore";
@@ -14,28 +15,16 @@ import PostDetailUser from "../post/PostDetailUser";
 
 const ProfileUser = () => {
   const [param] = useSearchParams();
-  const [user, setUser] = useState("");
   const [post, setPost] = useState([]);
   const userId = param.get("id");
 
-  useEffect(() => {
-    const fecthUser = async () => {
-      if (!userId) return;
-      const colRef = doc(db, "users", userId);
-      const docSnap = await getDoc(colRef);
-      if (docSnap.exists()) {
-        setUser(docSnap.data());
-      } else {
-        console.log("No such document!");
-      }
-    };
-    fecthUser();
-  }, []);
+  console.log(userId);
 
   useEffect(() => {
     const fetchPost = async () => {
       const docRef = query(
         collection(db, "posts"),
+        orderBy("createAt", "desc"),
         where("user.id", "==", userId)
       );
       let result = [];
@@ -61,7 +50,7 @@ const ProfileUser = () => {
             <PostItem postData={post}></PostItem>
           </div>
           <div>
-            <PostDetailUser userData={user}></PostDetailUser>
+            <PostDetailUser userId={userId}></PostDetailUser>
           </div>
         </div>
       </div>

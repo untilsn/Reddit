@@ -32,29 +32,34 @@ const SignUp = ({ switchToSignIn, onClose }) => {
   });
 
   const handleSignup = async (values) => {
-    console.log(values);
     if (!isValid) return;
-    await createUserWithEmailAndPassword(auth, values.email, values.password);
-    await updateProfile(auth.currentUser, {
-      displayName: values.fullname,
-      photoURL:
-        "https://play-lh.googleusercontent.com/kUOsgwyf8qbM0I7zKpnPr8b44WD0SzALloHWH7ROq3kUk2GM9ssj9a7fR-zulmG-sjU=w240-h480-rw",
-    });
-    // add collection
-    await setDoc(doc(db, "users", auth.currentUser.uid), {
-      fullname: values.fullname,
-      email: values.email,
-      password: values.password,
-      username: slugify(values.fullname, { lower: true }),
-      followers: "",
-      followings: "",
-      avatar:
-        "https://play-lh.googleusercontent.com/kUOsgwyf8qbM0I7zKpnPr8b44WD0SzALloHWH7ROq3kUk2GM9ssj9a7fR-zulmG-sjU=w240-h480-rw",
-      status: userStatus.ONLINE,
-      createAt: serverTimestamp(),
-      karma: 0,
-    });
-    toast.success("create user success");
+    try {
+      await createUserWithEmailAndPassword(auth, values.email, values.password);
+      await updateProfile(auth.currentUser, {
+        displayName: values.fullname,
+        photoURL:
+          "https://play-lh.googleusercontent.com/kUOsgwyf8qbM0I7zKpnPr8b44WD0SzALloHWH7ROq3kUk2GM9ssj9a7fR-zulmG-sjU=w240-h480-rw",
+      });
+      // add collection
+      await setDoc(doc(db, "users", auth.currentUser.uid), {
+        fullname: values.fullname,
+        email: values.email,
+        password: values.password,
+        username: slugify(values.fullname, { lower: true }),
+        followers: "",
+        followings: "",
+        avatar:
+          "https://play-lh.googleusercontent.com/kUOsgwyf8qbM0I7zKpnPr8b44WD0SzALloHWH7ROq3kUk2GM9ssj9a7fR-zulmG-sjU=w240-h480-rw",
+        status: userStatus.ONLINE,
+        saved: [],
+        createAt: serverTimestamp(),
+        karma: 0,
+      });
+      toast.success("create user success");
+      onClose();
+    } catch (error) {
+      error ? toast.error(" Email or username already in use") : "";
+    }
   };
 
   return (

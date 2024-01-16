@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import Button from "../button/Button";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
@@ -6,33 +6,65 @@ import InputForm from "../input/InputForm";
 import { useFirebaseAvatar } from "../../hook/useFirebaseAvatar";
 import { useAuth } from "../../context/auth-context";
 import { db } from "../../firebase/firebaseConfigure";
-import { doc, updateDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  onSnapshot,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 
-const PostDetailUser = ({ userData }) => {
+const PostDetailUser = ({ userId }) => {
+  console.log(userId);
+  if (!userId) return;
   const { avatarImage, handleSelecteAvatar } = useFirebaseAvatar();
   const [buttonSubmit, setButtonSubmit] = useState(false);
-  console.log(avatarImage);
+  const [userDetail, setUserDetail] = useState("");
   const { userInfo } = useAuth();
-  const dayData = userData?.createAt
-    ? new Date(userData?.createAt?.seconds * 1000)
+  const dayData = userDetail?.user?.createAt
+    ? new Date(userDetail?.user?.createAt?.seconds * 1000)
     : new Date();
   const formatDate = new Date(dayData).toLocaleDateString("vi-VN");
-  if (!userData) return;
+
+  useEffect(() => {
+    const colRef = doc(db, "users", userId);
+    onSnapshot(colRef, (doc) => {
+      setUserDetail({
+        id: doc.id,
+        ...doc.data(),
+      });
+    });
+  }, []);
+
+  console.log(userId);
+
   const handleUpdateAvatar = async () => {
     if (!userInfo || !avatarImage) return;
     try {
+      // update user
       const colRef = doc(db, "users", userInfo.uid);
       await updateDoc(colRef, { avatar: avatarImage });
+      //update post
+      const postsQuery = query(
+        collection(db, "posts"),
+        where("user.id", "==", userInfo.uid)
+      );
+      const postsSnapshot = await getDocs(postsQuery);
+      postsSnapshot.forEach(async (postDoc) => {
+        const postRef = doc(db, "posts", postDoc.id);
+        await updateDoc(postRef, { "user.avatar": avatarImage });
+      });
+
       toast.success("update avatar success");
       setButtonSubmit(false);
     } catch (error) {
       console.log(error);
     }
   };
-
   return (
     <Fragment>
-      <div className="border border-border-color  overflow-hidden rounded-md w-full max-w-[340px] min-h-[500px] bg-main-dark-gray">
+      <div className="border border-border-color  overflow-hidden rounded-md w-full max-w-[340px] h-[500px] bg-main-dark-gray">
         {/* backgroud */}
         <div className="w-full h-[120px] relative ">
           <img
@@ -46,25 +78,29 @@ const PostDetailUser = ({ userData }) => {
             <div className="flex flex-col justify-center transition-all group">
               <div className="max-w-[120px] w-full mx-auto h-[120px]">
                 <img
-                  src={avatarImage || userData.avatar}
+                  src={avatarImage || userDetail?.avatar}
                   alt=""
                   className="object-cover w-full h-full rounded-full"
                 />
               </div>
-              <label
-                onClick={() => setButtonSubmit(true)}
-                htmlFor="image"
-                className="invisible mx-auto text-sm font-semibold text-center text-blue-400 normal-case group-hover:transition-all group-hover:visible"
-              >
-                <input
-                  type="file"
-                  name=""
-                  onChange={handleSelecteAvatar}
-                  className="hidden"
-                  id="image"
-                />
-                Change avatar
-              </label>
+              {userInfo?.uid === userId ? (
+                <label
+                  onClick={() => setButtonSubmit(true)}
+                  htmlFor="image"
+                  className="invisible mx-auto text-sm font-semibold text-center text-blue-400 normal-case group-hover:transition-all group-hover:visible"
+                >
+                  <input
+                    type="file"
+                    name=""
+                    onChange={handleSelecteAvatar}
+                    className="hidden"
+                    id="image"
+                  />
+                  Change avatar
+                </label>
+              ) : (
+                ""
+              )}
             </div>
           </div>
         </div>
@@ -82,7 +118,7 @@ const PostDetailUser = ({ userData }) => {
             ""
           )}
           <h1 className="text-lg font-semibold text-center">
-            {userData?.fullname}
+            {userDetail?.fullname}
           </h1>
           <p className="mt-5 "></p>
           <div className="grid w-full grid-cols-2 gap-2 p-3 ">
@@ -104,7 +140,7 @@ const PostDetailUser = ({ userData }) => {
                     />
                   </svg>
                 </span>
-                {userData?.karma}
+                {userDetail?.karma}
               </div>
             </div>
             <div className="text-sm font-semibold">
@@ -144,7 +180,7 @@ const PostDetailUser = ({ userData }) => {
                     />
                   </svg>
                 </span>
-                {userData?.followers?.length}
+                {userDetail?.followers?.length}
               </div>
             </div>
           </div>

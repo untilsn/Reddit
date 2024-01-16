@@ -6,6 +6,8 @@ import ButtonForm from "../button/ButtonForm";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { v4 as uuidv4 } from "uuid";
+
 import {
   addDoc,
   collection,
@@ -59,6 +61,7 @@ const AddPostContainer = ({ activeButton }) => {
       like: [],
       titlePost: "",
       content: "",
+      uid: "",
     },
     resolver: yupResolver(schema),
   });
@@ -101,6 +104,7 @@ const AddPostContainer = ({ activeButton }) => {
     try {
       await addDoc(colRef, {
         ...cloneValues,
+        uid: uuidv4(),
         liked: true,
         disliked: false,
         like: [userInfo?.uid],
@@ -116,6 +120,7 @@ const AddPostContainer = ({ activeButton }) => {
         content: "",
         like: [],
         liked: true,
+        uid: "",
         disliked: false,
         createAt: serverTimestamp(),
       });

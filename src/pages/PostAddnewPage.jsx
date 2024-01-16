@@ -120,16 +120,6 @@ const PostAddNewPage = () => {
     setActivebutton(type);
   };
 
-  const handleSuccess = () => {
-    toast.success("okokookokokokokqẻqưẻqưẻqưẻqưẻqưẻ");
-  };
-  const handleError = () => {
-    toast.error("eeeeeeeeeeeeeeeeeqưẻqưẻqewrqưẻqưẻq");
-  };
-  const handleWarning = () => {
-    toast.warning("shiyyyyyyyyyyưẻqưẻqưẻqưẻqưẻqưẻqy");
-  };
-
   return (
     <div className="container flex gap-5">
       <div className="flex-1 w-full mt-5">
@@ -204,22 +194,13 @@ const PostAddNewPage = () => {
           <h1 className="font-semibold ">Posting to Reddit</h1>
         </div>
         <ol className="">
-          <li
-            onClick={handleSuccess}
-            className="px-2 py-3 text-sm font-semibold border-b border-border-color "
-          >
+          <li className="px-2 py-3 text-sm font-semibold border-b border-border-color ">
             <span>1.</span> chủ ground dep zai
           </li>
-          <li
-            onClick={handleError}
-            className="px-2 py-3 text-sm font-semibold border-b border-border-color"
-          >
+          <li className="px-2 py-3 text-sm font-semibold border-b border-border-color">
             <span>2.</span> thang nao doc lam cho
           </li>
-          <li
-            onClick={handleWarning}
-            className="px-2 py-3 text-sm font-semibold border-b border-border-color"
-          >
+          <li className="px-2 py-3 text-sm font-semibold border-b border-border-color">
             <span>3.</span> posting is gay
           </li>
           <li className="px-2 py-3 text-sm font-semibold border-b border-border-color">

@@ -18,7 +18,6 @@ import { array } from "yup";
 
 const PostItem = ({ postData }) => {
   const [posts, setPosts] = useState([]);
-
   // Kiểm tra và chuyển đổi postData thành mảng nếu không phải là mảng
   useEffect(() => {
     if (!Array.isArray(postData)) {
@@ -37,7 +36,6 @@ const PostItem = ({ postData }) => {
   // ? IS LIKE
 
   const handleFollowing = async (item, index) => {
-    console.log(item?.user?.id);
     try {
       const userRef = doc(db, "users", userInfo?.uid);
       await updateDoc(userRef, { followings: arrayUnion(item?.user?.id) });
@@ -50,7 +48,6 @@ const PostItem = ({ postData }) => {
   };
 
   const handleUnFollowing = async (item, index) => {
-    console.log(item?.user?.id);
     try {
       const userRef = doc(db, "users", userInfo?.uid);
       await updateDoc(userRef, { followings: arrayRemove(item?.user?.id) });
@@ -64,12 +61,11 @@ const PostItem = ({ postData }) => {
 
   const handleSavingPost = async (item, index) => {
     const docRef = doc(db, "users", userInfo?.uid);
-    console.log(docRef);
     try {
       await updateDoc(docRef, {
-        saved: arrayUnion(item?.id),
+        saved: arrayUnion(item?.uid),
       });
-      console.log("success");
+      console.log("save success");
     } catch (error) {
       console.log(error);
     }
@@ -77,12 +73,11 @@ const PostItem = ({ postData }) => {
 
   const handleUnsavingPost = async (item, index) => {
     const docRef = doc(db, "users", userInfo?.uid);
-    console.log(docRef);
     try {
       await updateDoc(docRef, {
-        saved: arrayRemove(item?.id),
+        saved: arrayRemove(item?.uid),
       });
-      console.log("success");
+      console.log("unsave success");
     } catch (error) {
       console.log(error);
     }
@@ -143,11 +138,11 @@ const PostItem = ({ postData }) => {
               </div>
 
               {/* title */}
-              <h1 className=" text-lg font-[500] ">
+              <h1 className=" text-lg font-[500] mt-1 ">
                 {item?.titlePost || item?.titleImage || item?.titleLink}
               </h1>
               {/* post type */}
-              <div className="w-full h-auto mt-4">
+              <div className="w-full h-auto mt-2">
                 {item?.titlePost ? (
                   <PostForm data={item}></PostForm>
                 ) : item?.titleImage ? (
@@ -195,7 +190,7 @@ const PostItem = ({ postData }) => {
                   share
                 </div>
 
-                {userInfo?.saved.includes(item?.id) ? (
+                {userInfo?.saved.includes(item?.uid) ? (
                   <div
                     onClick={() => handleUnsavingPost(item, index)}
                     className="flex items-center gap-1 p-2 text-xs font-bold rounded-sm hover:bg-main-dark-lite"

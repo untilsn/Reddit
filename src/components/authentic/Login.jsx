@@ -7,11 +7,11 @@ import InputPassword from "../input/InputPassword";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase/firebaseConfigure";
 import { toast } from "react-toastify";
-import { useAuth } from "../../context/auth-context";
 import Button from "../button/Button";
+import { useAuth } from "../../context/auth-context";
 
 const Login = ({ switchToSignUp, onClose }) => {
-  const { useInfo } = useAuth();
+  const { userInfo } = useAuth();
   const schema = yup.object({
     email: yup
       .string()
@@ -32,10 +32,13 @@ const Login = ({ switchToSignUp, onClose }) => {
 
   const handleLogin = (values) => {
     if (!isValid) return;
-    console.log(values);
-    signInWithEmailAndPassword(auth, values.email, values.password);
-    toast.success(`welcome back`);
-    onClose();
+    try {
+      signInWithEmailAndPassword(auth, values.email, values.password);
+      toast.success(`welcome back ${userInfo.fullname}`);
+      onClose();
+    } catch (error) {
+      error ? toast.error("Invalid email or password") : "";
+    }
   };
   return (
     <form onSubmit={handleSubmit(handleLogin)}>

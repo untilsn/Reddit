@@ -17,26 +17,25 @@ import Slider from "../components/swiper/Slider";
 import Like from "../components/reaction/Like";
 
 const PostDetailPage = () => {
-  const [isLiked, setIsLiked] = useState(false);
-  const [isDisliked, setIsDisliked] = useState(false);
-  const [postData, setPostData] = useState();
   const [param] = useSearchParams();
   const postId = param.get("id");
-
+  const [postData, setPostData] = useState();
   useEffect(() => {
+    if (!postId) return;
     try {
-      async function getData() {
-        const colRef = doc(db, "posts", postId);
-        const post = await getDoc(colRef);
-        setPostData(post.data());
-      }
-      getData();
+      const colRef = doc(db, "posts", postId);
+      onSnapshot(colRef, (doc) => {
+        setPostData({
+          id: doc.id,
+          ...doc.data(),
+        });
+      });
     } catch (error) {
       console.log(error);
     }
-  }, [postId]);
-  console.log(postData);
-  const handleComment = (values) => {};
+  }, []);
+
+  console.log(postData?.user?.id);
 
   return (
     <Fragment>
@@ -166,7 +165,7 @@ const PostDetailPage = () => {
                 </div>
               </div>
               {/* user */}
-              <PostDetailUser></PostDetailUser>
+              <PostDetailUser userId={postData?.user?.id}></PostDetailUser>
             </div>
           </div>
         </div>

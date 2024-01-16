@@ -4,6 +4,7 @@ import "react-quill/dist/quill.snow.css";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { v4 as uuidv4 } from "uuid";
 import {
   addDoc,
   collection,
@@ -44,7 +45,9 @@ const AddPostLink = ({ activeButton }) => {
     defaultValues: {
       titleLink: "", // Thêm giá trị mặc định cho trường title
       link: "",
+      uid: "",
     },
+
     resolver: yupResolver(schema),
   });
 
@@ -82,6 +85,7 @@ const AddPostLink = ({ activeButton }) => {
     try {
       await addDoc(colRef, {
         ...cloneValues,
+        uid: uuidv4(),
         liked: true,
         disliked: false,
         like: [userInfo?.uid],
@@ -94,7 +98,7 @@ const AddPostLink = ({ activeButton }) => {
         link: "",
         liked: true,
         disliked: false,
-
+        uid: "",
         createAt: serverTimestamp(),
       });
     } catch (error) {

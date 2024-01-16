@@ -15,7 +15,6 @@ import { db } from "../firebase/firebaseConfigure";
 
 const FrontPage = () => {
   const [post, setPost] = useState([]);
-  console.log(post);
   useEffect(() => {
     try {
       async function fecthPost() {

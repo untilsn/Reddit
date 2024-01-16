@@ -6,12 +6,18 @@ import InputForm from "../input/InputForm";
 import { useFirebaseAvatar } from "../../hook/useFirebaseAvatar";
 import { useAuth } from "../../context/auth-context";
 import { db } from "../../firebase/firebaseConfigure";
-import { doc, updateDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDocs,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 
 const PostDetailAuth = ({ userData }) => {
   const { avatarImage, handleSelecteAvatar } = useFirebaseAvatar();
   const [buttonSubmit, setButtonSubmit] = useState(false);
-  console.log(avatarImage);
   const { userInfo } = useAuth();
   const dayData = userData?.createAt
     ? new Date(userData?.createAt?.seconds * 1000)
@@ -23,6 +29,18 @@ const PostDetailAuth = ({ userData }) => {
     try {
       const colRef = doc(db, "users", userInfo.uid);
       await updateDoc(colRef, { avatar: avatarImage });
+
+      //update post
+      const postsQuery = query(
+        collection(db, "posts"),
+        where("user.id", "==", userInfo.uid)
+      );
+      const postsSnapshot = await getDocs(postsQuery);
+      postsSnapshot.forEach(async (postDoc) => {
+        const postRef = doc(db, "posts", postDoc.id);
+        await updateDoc(postRef, { "user.avatar": avatarImage });
+      });
+
       toast.success("update avatar success");
       setButtonSubmit(false);
     } catch (error) {
@@ -48,7 +66,7 @@ const PostDetailAuth = ({ userData }) => {
                 <img
                   src={avatarImage || userInfo.avatar}
                   alt=""
-                  className="object-cover w-full h-full rounded-full"
+                  className="object-cover w-full h-full border rounded-full shadow-2xl border-text-color"
                 />
               </div>
               <label

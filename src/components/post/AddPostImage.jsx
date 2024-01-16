@@ -6,6 +6,7 @@ import { useAuth } from "../../context/auth-context";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { v4 as uuidv4 } from "uuid";
 import {
   addDoc,
   collection,
@@ -21,7 +22,6 @@ import useHandleKarmaIncrement from "../../hook/usehandleKarmaIncrement";
 const AddPostImage = ({ activeButton }) => {
   const { userInfo } = useAuth();
   const { handleKarmaIncrement } = useHandleKarmaIncrement();
-
   const schema = yup.object({
     titleImage: yup
       .string()
@@ -44,6 +44,7 @@ const AddPostImage = ({ activeButton }) => {
       liked: true,
       disliked: false,
       like: [userInfo?.uid],
+      uid: "",
     },
     resolver: yupResolver(schema),
   });
@@ -84,6 +85,7 @@ const AddPostImage = ({ activeButton }) => {
     try {
       await addDoc(colRef, {
         ...cloneValues,
+        uid: uuidv4(),
         liked: true,
         disliked: false,
         like: [userInfo?.uid],
@@ -96,6 +98,7 @@ const AddPostImage = ({ activeButton }) => {
         title: "",
         liked: true,
         disliked: false,
+        uid: "",
         createAt: serverTimestamp(),
       });
       handleResetUpload();

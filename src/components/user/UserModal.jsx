@@ -37,9 +37,9 @@ const UserModal = () => {
         className=" flex w-full max-w-[200px]  z-10 transition-all py-3 pr-2  items-center justify-between  rounded-sm  avatar"
       >
         <div className="flex items-center gap-2 ">
-          <div className="avatar-img w-full max-w-[30px] h-[30px]">
+          <div className="overflow-hidden max-w-[30px] w-full h-[30px] rounded-full avatar-img shadow-lg border border-border-color">
             <img
-              className="object-cover w-full h-full rounded-full"
+              className="object-cover h-full w-[30px]"
               src={userInfo?.avatar}
               alt=""
             />
