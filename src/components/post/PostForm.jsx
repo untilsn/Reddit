@@ -10,7 +10,9 @@ const PostForm = ({ data }) => {
         onClick={() => navigate(`/post?id=${data.id}`)}
         className="flex items-center h-auto mt-auto overflow-hidden cursor-pointer "
       >
-        <div className="entry-content">{parse(data?.content || "")}</div>
+        <div className="h-[500px]">
+          <div className=" entry-content">{parse(data?.content || "")}</div>
+        </div>
       </div>
     </Fragment>
   );
